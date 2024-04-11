@@ -45,16 +45,34 @@
   border: 1px solid #ddd;
   border-radius: 5px;
   overflow: hidden;
+  width: fit-content;
 }
 
 .card-body {
   padding: 20px;
+  width: fit-content;
 }
-
 
 .post-title {
   font-size: 24px;
   margin-bottom: 10px;
+}
+.logout_btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font: bolder;
+  position: relative;
+  left: 55rem;
+}
+
+.logout_btn:hover {
+  background-color: #0056b3;
 }
 
 .post-description {
