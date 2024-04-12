@@ -26,7 +26,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($stmt->rowCount() == 1) {
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             $stored_password = $row['password'];
-
             if ($password === $stored_password) {
                 $_SESSION['user'] = $email;
                 header('Location: /forms/home/index/index.php');
@@ -72,6 +71,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
         </form>
         <p>Don't have an account? <a href="/forms/register/registration.php">Register here</a>.</p>
+        <p>
+            <a href="/forms/api/api.php">Get Demo Users</a>
+        </p>
+        <p><a href="/forms/api/chat.php">Chat with us ?</a></p>
     </div>
 </body>
 
