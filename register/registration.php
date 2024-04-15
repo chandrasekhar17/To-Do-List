@@ -36,16 +36,16 @@
 
                 // Validate username length
                 if (field.attr('id') === 'username') {
-                    if (value.length < 4 || value.length > 20) {
-                        field.after('<span class="error">Username must be between 4 and 20 characters</span>');
+                    if (value.length < 6 || value.length > 20) {
+                        field.after('<span class="error">Username must be between 6 and 20 characters</span>');
                         return false;
                     }
                 }
 
                 // Validate password length and alphanumeric
                 if (field.attr('id') === 'password') {
-                    if (value.length < 6 || value.length > 20) {
-                        field.after('<span class="error">Password must be between 6 and 20 characters</span>');
+                    if (value.length < 7 || value.length > 20) {
+                        field.after('<span class="error">Password must be between 7 and 20 characters</span>');
                         return false;
                     }
                     if (!isAlphanumericPassword(value)) {
@@ -63,8 +63,8 @@
                 return true;
             }
 
-            // Validate fields on blur event
-            $('#username, #email, #password').blur(function () {
+            // Validate fields on input and blur events
+            $('#username, #email, #password').on('input blur', function () {
                 validateField($(this));
             });
 
@@ -89,6 +89,7 @@
             });
         });
     </script>
+
     <style>
         .error {
             color: red;
@@ -98,7 +99,7 @@
 
 <body>
     <div class="registration-container">
-        <h2>Registration Form</h2>
+        <h2>Register Here</h2>
         <form id="registrationForm" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
             <label for="username">Username</label><br>
             <input type="text" id="username" name="username" required><br><br>

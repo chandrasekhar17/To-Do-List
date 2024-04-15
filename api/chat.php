@@ -55,7 +55,7 @@
                 if (res == 'go') {
                     alert(res);
                 }
-            };
+            },
         });
     }
 </script>

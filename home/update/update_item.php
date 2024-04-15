@@ -69,8 +69,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 // Attempt to execute the prepared statement
                 if ($stmt->execute()) {
                     // Redirect to the to-do list page
-                    $redirectUrl = 'http://'.$_SERVER['HTTP_HOST'].'/forms/home/index/index.php';
-                    header('location: '.$redirectUrl);
+                    $redirectUrl = 'http://' . $_SERVER['HTTP_HOST'] . '/forms/home/index/index.php';
+                    header('location: ' . $redirectUrl);
                     exit;
                 } else {
                     echo 'Oops! Something went wrong. Please try again later.';
@@ -97,6 +97,48 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update To-Do Item</title>
     <link href="styles.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#title').on('input', function () {
+                var title = $(this).val();
+                if (title.length < 6) {
+                    $('#title-error').text('Title should be at least 6 characters long').css('color', 'red');
+                } else {
+                    $('#title-error').text('').css('color', 'red');
+                }
+            });
+
+            $('#description').on('input', function () {
+                var description = $(this).val();
+                if (description.length < 10) {
+                    $('#desc-error').text('Description should be at least 10 characters long').css('color', 'red');
+                } else {
+                    $('#desc-error').text('').css('color', 'red');
+                }
+            });
+
+            // Validate fields on form submission
+            $('.update-form').submit(function (event) {
+                var title = $('#title').val();
+                var description = $('#description').val();
+                var isValid = true;
+
+                if (title.length < 6) {
+                    $('#title-error').text('Title should be at least 6 characters long').css('color', 'red');
+                    isValid = false;
+                }
+
+                if (description.length < 10) {
+                    $('#desc-error').text('Description should be at least 10 characters long').css('color', 'red');
+                    isValid = false;
+                }
+                if (!isValid) {
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
 </head>
 
 <body>
@@ -106,14 +148,18 @@ $conn->close();
             <input type="hidden" name="id" value="<?php echo $id; ?>">
             <div>
                 <label>Title:</label>
-                <input class="post-title" type="text" name="title" value="<?php echo isset($title) ? $title : ''; ?>">
-                <span class="error"><?php echo $title_err; ?></span>
+                <input id="title" class="post-title" type="text" name="title"
+                    value="<?php echo isset($title) ? $title : ''; ?>">
+                <span id="title-error" class="error"></span><br><br>
+
+                <!-- <span class="error"><?php echo $title_err; ?></span> -->
             </div>
             <div>
                 <label>Description:</label>
-                <textarea class="post-description"
+                <textarea id="description" class="post-description"
                     name="description"><?php echo isset($description) ? $description : ''; ?></textarea>
-                <span class="error"><?php echo $description_err; ?></span>
+                <!-- <span class="error"><?php echo $description_err; ?></span> -->
+                <span id="desc-error" class="error"></span><br><br>
             </div>
             <div>
                 <input type="submit" value="Update" class="btn btn-success" />

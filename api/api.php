@@ -11,7 +11,6 @@
 <body>
 
     <div id="data-container">
-        <!-- Data will be displayed here -->
     </div>
 
     <script>
@@ -22,7 +21,6 @@
                 method: 'GET',
                 dataType: 'json', // Expect JSON response
                 success: function (data) {
-                    // Handle the successful response
                     displayData(data);
                 },
                 error: function (xhr, status, error) {

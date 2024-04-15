@@ -52,19 +52,71 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <title>Login</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#email').on('input', function () {
+                var email = $(this).val();
+                var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+                if (!emailPattern.test(email)) {
+                    $('#email-error').text('Please enter a valid email address.');
+                } else {
+                    $('#email-error').text('');
+                }
+            });
+
+            $('#password').on('input', function () {
+                var password = $(this).val();
+
+                if (password.length < 6) {
+                    $('#password-error').text('Invalid Password');
+                } else {
+                    $('#password-error').text('');
+                }
+            });
+
+            $('#login-form').submit(function (event) {
+                var email = $('#email').val();
+                var password = $('#password').val();
+                var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+                if (!emailPattern.test(email)) {
+                    $('#email-error').text('Please enter a valid email address.');
+                    event.preventDefault();
+                } else {
+                    $('#email-error').text('');
+                }
+
+                if (password.length < 6) {
+                    $('#password-error').text('Password must be at least 6 characters long.');
+                    event.preventDefault();
+                } else {
+                    $('#password-error').text('');
+                }
+            });
+        });
+    </script>
 </head>
 
 <body>
     <div class="login-container">
         <h2>Login</h2>
-        <form action="/forms/login/index.php" method="post">
+        <form id="login-form" action="/forms/login/index.php" method="post">
             <div>
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" required />
+                <span id="email-error" class="error"></span>
             </div>
             <div>
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" required />
+                <span id="password-error" class="error"></span>
             </div>
             <div>
                 <input type="submit" value="Login" />
@@ -72,9 +124,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </form>
         <p>Don't have an account? <a href="/forms/register/registration.php">Register here</a>.</p>
         <p>
-            <a href="/forms/api/api.php">Get Demo Users</a>
+            <!-- <a href="/forms/api/api.php">Get Demo Users</a> -->
+            <a href="/forms/api/cURL.php">cURL</a> or <a href="/forms/api/api.php">Ajax</a>
+
         </p>
-        <p><a href="/forms/api/chat.php">Chat with us ?</a></p>
+        <!-- <p><a href="/forms/api/chat.php">Chat with us ?</a></p> -->
     </div>
 </body>
 

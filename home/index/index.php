@@ -9,6 +9,7 @@ require_once '../../config.php';
 // Process form submission to add a new post
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_item'])) {
     require_once '../create/add_item.php';
+    require_once '/logout/logout.php';
 }
 ?>
 
@@ -20,6 +21,54 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_item'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>List of Posts</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#title').on('input', function () {
+                var title = $(this).val();
+                if (title.length < 6) {
+                    $('#title-error').text('Title should be at least 6 characters long').css('color', 'red');
+                } else {
+                    $('#title-error').text('').css('color', 'red');
+                }
+            });
+
+            $('#description').on('input', function () {
+                var description = $(this).val();
+                if (description.length < 10) {
+                    $('#desc-error').text('Description should be at least 10 characters long').css('color', 'red');
+                } else {
+                    $('#desc-error').text('').css('color', 'red');
+                }
+            });
+
+            // Validate fields on form submission
+            $('.post-form').submit(function (event) {
+                var title = $('#title').val();
+                var description = $('#description').val();
+                var isValid = true;
+
+                if (title.length < 6) {
+                    $('#title-error').text('Title should be at least 6 characters long').css('color', 'red');
+                    isValid = false;
+                }
+
+                if (description.length < 10) {
+                    $('#desc-error').text('Description should be at least 10 characters long').css('color', 'red');
+                    isValid = false;
+                }
+                if (!isValid) {
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
+
 </head>
 
 <body>
@@ -28,9 +77,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_item'])) {
         <h1>Add Post</h1>
         <form action=" <?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" class="post-form">
             <label for="Title"><strong>Title</strong></label><br><br>
-            <input type="text" name="title" placeholder="Title" required><br><br>
+            <input type="text" id="title" name="title" placeholder="Title" required>
+            <span id="title-error" class="error"></span><br><br>
             <label for="Description"><strong>Description</strong></label><br><br>
-            <textarea name="description" placeholder="Description" required></textarea><br><br>
+            <textarea id="description" name="description" placeholder="Description" required></textarea>
+            <span id="desc-error" class="error"></span><br><br>
             <input type="submit" name="add_item" value="Add Item" class="btn btn-success">
         </form>
         <script>
