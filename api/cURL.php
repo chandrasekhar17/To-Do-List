@@ -26,6 +26,5 @@ if ($response === false) {
     }
     echo '</div>';
 }
-
 // Close cURL session
 curl_close($ch);

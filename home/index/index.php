@@ -4,7 +4,12 @@ session_start();
 
 // Include config file
 require_once '../../config.php';
+// require_once '../../login/index.php';
 // require_once '../../'
+if (!isset($_SESSION['user'])) {
+    header('Location: ../../login/index.php');
+    exit;
+}
 
 // Process form submission to add a new post
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_item'])) {

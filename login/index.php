@@ -36,7 +36,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 exit;
             }
         } else {
-            header('Location: login.html?error=user_not_found');
+            // header('Location: login.html?error=user_not_found');
+            echo 'user not found';
             exit;
         }
     } catch (PDOException $e) {
@@ -75,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 var password = $(this).val();
 
                 if (password.length < 6) {
-                    $('#password-error').text('Invalid Password');
+                    $('#password-error').text('Password must be at least 6 characters long.');
                 } else {
                     $('#password-error').text('');
                 }
@@ -85,23 +86,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 var email = $('#email').val();
                 var password = $('#password').val();
                 var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                var isValid = true;
 
-                if (!emailPattern.test(email)) {
+                if (email.trim() === '') {
+                    $('#email-error').text('Please enter your email.');
+                    isValid = false;
+                } else if (!emailPattern.test(email)) {
                     $('#email-error').text('Please enter a valid email address.');
-                    event.preventDefault();
+                    isValid = false;
                 } else {
                     $('#email-error').text('');
                 }
 
-                if (password.length < 6) {
+                if (password.trim() === '') {
+                    $('#password-error').text('Please enter your password.');
+                    isValid = false;
+                } else if (password.length < 6) {
                     $('#password-error').text('Password must be at least 6 characters long.');
-                    event.preventDefault();
+                    isValid = false;
                 } else {
                     $('#password-error').text('');
+                }
+
+                if (!isValid) {
+                    event.preventDefault();
                 }
             });
         });
     </script>
+
 </head>
 
 <body>
@@ -109,12 +122,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <h2>Login</h2>
         <form id="login-form" action="/forms/login/index.php" method="post">
             <div>
-                <label for="email">Email:</label>
+                <label for="email">Email</label>
                 <input type="email" id="email" name="email" required />
                 <span id="email-error" class="error"></span>
             </div>
             <div>
-                <label for="password">Password:</label>
+                <label for="password">Password</label>
                 <input type="password" id="password" name="password" required />
                 <span id="password-error" class="error"></span>
             </div>
@@ -124,9 +137,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </form>
         <p>Don't have an account? <a href="/forms/register/registration.php">Register here</a>.</p>
         <p>
-            <!-- <a href="/forms/api/api.php">Get Demo Users</a> -->
             <a href="/forms/api/cURL.php">cURL</a> or <a href="/forms/api/api.php">Ajax</a>
-
         </p>
         <!-- <p><a href="/forms/api/chat.php">Chat with us ?</a></p> -->
     </div>

@@ -9,15 +9,13 @@
 </head>
 
 <body>
-
     <div id="data-container">
     </div>
-
     <script>
         $(document).ready(function () {
-            // Make an Ajax request to fetch data from the fake API
+            // Make an Ajax request to fetch data from the API
             $.ajax({
-                url: 'https://jsonplaceholder.typicode.com/users', // Fake API endpoint
+                url: 'https://jsonplaceholder.typicode.com/users',
                 method: 'GET',
                 dataType: 'json', // Expect JSON response
                 success: function (data) {
